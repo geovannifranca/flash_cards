@@ -18,7 +18,7 @@ class DeckAdapter extends TypeAdapter<Deck> {
     };
     return Deck(
       title: fields[1] as String,
-      cards: (fields[2] as List).cast<Card>(),
+      cards: fields[2] == null ? const [] : (fields[2] as List).cast<Card>(),
     );
   }
 

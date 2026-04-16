@@ -6,5 +6,5 @@ class Deck {
   final String title;
   final List<Card> cards;
 
-  Deck({required this.title, required this.cards}) : id = Uuid().v4();
+  Deck({required this.title, this.cards = const []}) : id = Uuid().v4();
 }
