@@ -1,16 +1,22 @@
 import 'package:flash_cards/colors/app_colors.dart';
 import 'package:flutter/material.dart';
 
-class PimaryButton extends StatelessWidget {
+class PrimaryButton extends StatelessWidget {
   final String label;
   final void Function() onPressed;
-  const PimaryButton({super.key, required this.label, required this.onPressed});
+  final double size;
+  const PrimaryButton({
+    super.key,
+    required this.label,
+    required this.onPressed,
+    required this.size,
+  });
 
   @override
   Widget build(BuildContext context) {
     return FilledButton(
       style: FilledButton.styleFrom(
-        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 60),
+        padding: EdgeInsets.symmetric(vertical: 14, horizontal: size),
         shape: const RoundedRectangleBorder(side: BorderSide.none),
         backgroundColor: AppColors.primaryColor,
       ),

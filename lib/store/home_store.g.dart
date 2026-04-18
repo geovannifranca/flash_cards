@@ -45,6 +45,42 @@ mixin _$HomeStore on HomeStoreBase, Store {
     });
   }
 
+  late final _$_questionAtom = Atom(
+    name: 'HomeStoreBase._question',
+    context: context,
+  );
+
+  @override
+  String? get _question {
+    _$_questionAtom.reportRead();
+    return super._question;
+  }
+
+  @override
+  set _question(String? value) {
+    _$_questionAtom.reportWrite(value, super._question, () {
+      super._question = value;
+    });
+  }
+
+  late final _$_responseAtom = Atom(
+    name: 'HomeStoreBase._response',
+    context: context,
+  );
+
+  @override
+  String? get _response {
+    _$_responseAtom.reportRead();
+    return super._response;
+  }
+
+  @override
+  set _response(String? value) {
+    _$_responseAtom.reportWrite(value, super._response, () {
+      super._response = value;
+    });
+  }
+
   late final _$_decksAtom = Atom(
     name: 'HomeStoreBase._decks',
     context: context,
@@ -93,10 +129,32 @@ mixin _$HomeStore on HomeStoreBase, Store {
     return _$getAllDeckAsyncAction.run(() => super.getAllDeck());
   }
 
+  late final _$addCardAsyncAction = AsyncAction(
+    'HomeStoreBase.addCard',
+    context: context,
+  );
+
+  @override
+  Future<void> addCard({required AppCard card, required String id}) {
+    return _$addCardAsyncAction.run(() => super.addCard(card: card, id: id));
+  }
+
   late final _$HomeStoreBaseActionController = ActionController(
     name: 'HomeStoreBase',
     context: context,
   );
+
+  @override
+  void setQuestion(String? text) {
+    final _$actionInfo = _$HomeStoreBaseActionController.startAction(
+      name: 'HomeStoreBase.setQuestion',
+    );
+    try {
+      return super.setQuestion(text);
+    } finally {
+      _$HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void setTitle(String? text) {
@@ -105,6 +163,18 @@ mixin _$HomeStore on HomeStoreBase, Store {
     );
     try {
       return super.setTitle(text);
+    } finally {
+      _$HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setResponse(String? text) {
+    final _$actionInfo = _$HomeStoreBaseActionController.startAction(
+      name: 'HomeStoreBase.setResponse',
+    );
+    try {
+      return super.setResponse(text);
     } finally {
       _$HomeStoreBaseActionController.endAction(_$actionInfo);
     }

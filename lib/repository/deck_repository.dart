@@ -1,4 +1,4 @@
-import 'package:flash_cards/model/card.model.dart';
+import 'package:flash_cards/model/App_card.model.dart';
 import 'package:flash_cards/model/deck.model.dart';
 import 'package:hive_ce/hive.dart';
 
@@ -21,7 +21,7 @@ class DeckRepository {
     await _box.delete(id);
   }
 
-  Future<void> saveCard({required Card card, required String id}) async {
+  Future<void> saveCard({required AppCard card, required String id}) async {
     final deck = await getDeck(id: id);
     if (deck != null) {
       deck.cards.add(card);
@@ -29,7 +29,7 @@ class DeckRepository {
     }
   }
 
-  Future<List<Card>> getAllCard({required String id}) async {
+  Future<List<AppCard>> getAllCard({required String id}) async {
     final deck = await getDeck(id: id);
     if (deck != null) {
       return deck.cards;
@@ -37,7 +37,7 @@ class DeckRepository {
     return [];
   }
 
-  Future<Card?> getCard({required Card card, required String id}) async {
+  Future<AppCard?> getCard({required AppCard card, required String id}) async {
     final deck = await getDeck(id: id);
     if (deck != null) {
       return deck.cards.firstWhere((element) => element.id == card.id);
@@ -45,7 +45,7 @@ class DeckRepository {
     return null;
   }
 
-  Future<void> deleteCard({required Card card, required String id}) async {
+  Future<void> deleteCard({required AppCard card, required String id}) async {
     final deck = await getDeck(id: id);
     if (deck != null) {
       deck.cards.removeWhere((element) => element.id == card.id);

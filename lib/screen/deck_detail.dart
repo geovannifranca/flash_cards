@@ -1,5 +1,6 @@
 import 'package:flash_cards/model/deck.model.dart';
-import 'package:flash_cards/widget/pimary_button.widget.dart';
+import 'package:flash_cards/screen/add_card_screen.dart';
+import 'package:flash_cards/widget/primary_button.widget.dart';
 import 'package:flash_cards/widget/secundary_button.widget.dart';
 import 'package:flutter/material.dart';
 
@@ -32,9 +33,23 @@ class DeckdetailScreen extends StatelessWidget {
             Expanded(
               child: Column(
                 children: [
-                  SecundaryButton(label: 'Add Cartão', onPressed: () {}),
+                  SecundaryButton(
+                    label: 'Add Cartão',
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AddCardScreen(deck: deck),
+                        ),
+                      );
+                    },
+                  ),
                   const SizedBox(height: 20),
-                  PimaryButton(label: 'Iniciar Quiz', onPressed: () {}),
+                  PrimaryButton(
+                    label: 'Iniciar Quiz',
+                    onPressed: () {},
+                    size: 60,
+                  ),
                 ],
               ),
             ),

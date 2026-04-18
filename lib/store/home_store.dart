@@ -1,3 +1,4 @@
+import 'package:flash_cards/model/App_card.model.dart';
 import 'package:flash_cards/model/deck.model.dart';
 import 'package:flash_cards/repository/deck_repository.dart';
 import 'package:get_it/get_it.dart';
@@ -19,11 +20,25 @@ abstract class HomeStoreBase with Store {
   String? get title => _title;
 
   @observable
+  String? _question;
+  String? get question => _question;
+
+  @observable
+  String? _response;
+  String? get response => _response;
+
+  @observable
   ObservableList<Deck> _decks = ObservableList<Deck>();
   ObservableList<Deck> get decks => _decks;
 
   @action
+  void setQuestion(String? text) => _question = text;
+
+  @action
   void setTitle(String? text) => _title = text;
+
+  @action
+  void setResponse(String? text) => _response = text;
 
   @action
   Future<void> addDeck({required Deck deck}) async {
@@ -50,5 +65,14 @@ abstract class HomeStoreBase with Store {
     _decks.addAll(result);
     isLoading = false;
     return result;
+  }
+
+  @action
+  Future<void> addCard({required AppCard card, required String id}) async {
+    isLoading = true;
+
+    await _deckRepository.saveCard(id: id, card: card);
+
+    isLoading = false;
   }
 }

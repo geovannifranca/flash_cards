@@ -7,14 +7,14 @@ import 'package:flash_cards/adapter/hive_adapters.dart';
 
 extension HiveRegistrar on HiveInterface {
   void registerAdapters() {
-    registerAdapter(CardAdapter());
+    registerAdapter(AppCardAdapter());
     registerAdapter(DeckAdapter());
   }
 }
 
 extension IsolatedHiveRegistrar on IsolatedHiveInterface {
   void registerAdapters() {
-    registerAdapter(CardAdapter());
+    registerAdapter(AppCardAdapter());
     registerAdapter(DeckAdapter());
   }
 }

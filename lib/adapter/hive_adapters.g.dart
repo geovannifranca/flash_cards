@@ -19,7 +19,7 @@ class DeckAdapter extends TypeAdapter<Deck> {
     return Deck(
       id: fields[2] as String?,
       title: fields[0] as String,
-      cards: fields[1] == null ? const [] : (fields[1] as List).cast<Card>(),
+      cards: fields[1] == null ? const [] : (fields[1] as List).cast<AppCard>(),
     );
   }
 
@@ -46,33 +46,33 @@ class DeckAdapter extends TypeAdapter<Deck> {
           typeId == other.typeId;
 }
 
-class CardAdapter extends TypeAdapter<Card> {
+class AppCardAdapter extends TypeAdapter<AppCard> {
   @override
-  final typeId = 1;
+  final typeId = 2;
 
   @override
-  Card read(BinaryReader reader) {
+  AppCard read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Card(
-      id: fields[2] as String?,
-      front: fields[0] as String,
-      back: fields[1] as String,
+    return AppCard(
+      id: fields[0] as String?,
+      front: fields[1] as String,
+      back: fields[2] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, Card obj) {
+  void write(BinaryWriter writer, AppCard obj) {
     writer
       ..writeByte(3)
       ..writeByte(0)
-      ..write(obj.front)
+      ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.back)
+      ..write(obj.front)
       ..writeByte(2)
-      ..write(obj.id);
+      ..write(obj.back);
   }
 
   @override
@@ -81,7 +81,7 @@ class CardAdapter extends TypeAdapter<Card> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is CardAdapter &&
+      other is AppCardAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
