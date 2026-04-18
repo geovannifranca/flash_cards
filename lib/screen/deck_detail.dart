@@ -1,6 +1,7 @@
 import 'package:flash_cards/colors/app_colors.dart';
 import 'package:flash_cards/model/deck.model.dart';
 import 'package:flash_cards/screen/add_card_screen.dart';
+import 'package:flash_cards/screen/quiz_screen.dart';
 import 'package:flash_cards/store/home_store.dart';
 import 'package:flash_cards/widget/primary_button.widget.dart';
 import 'package:flash_cards/widget/secundary_button.widget.dart';
@@ -69,7 +70,15 @@ class _DeckdetailScreenState extends State<DeckdetailScreen> {
                             const SizedBox(height: 20),
                             PrimaryButton(
                               label: 'Iniciar Quiz',
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        QuizScreen(deck: widget.deck),
+                                  ),
+                                );
+                              },
                               size: 60,
                             ),
                           ],

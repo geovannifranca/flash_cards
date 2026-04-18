@@ -31,6 +31,17 @@ abstract class HomeStoreBase with Store {
   ObservableList<Deck> _decks = ObservableList<Deck>();
   ObservableList<Deck> get decks => _decks;
 
+  @observable
+  int _currentPage = 0;
+  int get currentPage => _currentPage;
+
+  @observable
+  bool _isVisible = false;
+  bool get isVisible => _isVisible;
+
+  @action
+  void seeAnswer() => _isVisible = !_isVisible;
+
   @action
   void setQuestion(String? text) => _question = text;
 
@@ -39,6 +50,9 @@ abstract class HomeStoreBase with Store {
 
   @action
   void setResponse(String? text) => _response = text;
+
+  @action
+  void next() => _currentPage++;
 
   @action
   Future<void> addDeck({required Deck deck}) async {

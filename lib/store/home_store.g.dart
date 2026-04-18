@@ -99,6 +99,42 @@ mixin _$HomeStore on HomeStoreBase, Store {
     });
   }
 
+  late final _$_currentPageAtom = Atom(
+    name: 'HomeStoreBase._currentPage',
+    context: context,
+  );
+
+  @override
+  int get _currentPage {
+    _$_currentPageAtom.reportRead();
+    return super._currentPage;
+  }
+
+  @override
+  set _currentPage(int value) {
+    _$_currentPageAtom.reportWrite(value, super._currentPage, () {
+      super._currentPage = value;
+    });
+  }
+
+  late final _$_isVisibleAtom = Atom(
+    name: 'HomeStoreBase._isVisible',
+    context: context,
+  );
+
+  @override
+  bool get _isVisible {
+    _$_isVisibleAtom.reportRead();
+    return super._isVisible;
+  }
+
+  @override
+  set _isVisible(bool value) {
+    _$_isVisibleAtom.reportWrite(value, super._isVisible, () {
+      super._isVisible = value;
+    });
+  }
+
   late final _$addDeckAsyncAction = AsyncAction(
     'HomeStoreBase.addDeck',
     context: context,
@@ -145,6 +181,18 @@ mixin _$HomeStore on HomeStoreBase, Store {
   );
 
   @override
+  void seeAnswer() {
+    final _$actionInfo = _$HomeStoreBaseActionController.startAction(
+      name: 'HomeStoreBase.seeAnswer',
+    );
+    try {
+      return super.seeAnswer();
+    } finally {
+      _$HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setQuestion(String? text) {
     final _$actionInfo = _$HomeStoreBaseActionController.startAction(
       name: 'HomeStoreBase.setQuestion',
@@ -175,6 +223,18 @@ mixin _$HomeStore on HomeStoreBase, Store {
     );
     try {
       return super.setResponse(text);
+    } finally {
+      _$HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void next() {
+    final _$actionInfo = _$HomeStoreBaseActionController.startAction(
+      name: 'HomeStoreBase.next',
+    );
+    try {
+      return super.next();
     } finally {
       _$HomeStoreBaseActionController.endAction(_$actionInfo);
     }

@@ -5,11 +5,13 @@ class PrimaryButton extends StatelessWidget {
   final String label;
   final void Function() onPressed;
   final double size;
+  final Color color;
   const PrimaryButton({
     super.key,
     required this.label,
     required this.onPressed,
     required this.size,
+    this.color = AppColors.primaryColor,
   });
 
   @override
@@ -18,7 +20,7 @@ class PrimaryButton extends StatelessWidget {
       style: FilledButton.styleFrom(
         padding: EdgeInsets.symmetric(vertical: 14, horizontal: size),
         shape: const RoundedRectangleBorder(side: BorderSide.none),
-        backgroundColor: AppColors.primaryColor,
+        backgroundColor: color,
       ),
       onPressed: onPressed,
       child: Text(
