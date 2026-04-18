@@ -8,14 +8,18 @@ types:
     nextIndex: 3
     fields:
       title:
-        index: 1
+        index: 0
       cards:
+        index: 1
+      id:
         index: 2
   Card:
     typeId: 1
     nextIndex: 3
     fields:
       front:
-        index: 1
+        index: 0
       back:
+        index: 1
+      id:
         index: 2

@@ -73,6 +73,16 @@ mixin _$HomeStore on HomeStoreBase, Store {
     return _$addDeckAsyncAction.run(() => super.addDeck(deck: deck));
   }
 
+  late final _$removeDeckAsyncAction = AsyncAction(
+    'HomeStoreBase.removeDeck',
+    context: context,
+  );
+
+  @override
+  Future<void> removeDeck({required String id}) {
+    return _$removeDeckAsyncAction.run(() => super.removeDeck(id: id));
+  }
+
   late final _$getAllDeckAsyncAction = AsyncAction(
     'HomeStoreBase.getAllDeck',
     context: context,

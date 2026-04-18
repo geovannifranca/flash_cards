@@ -17,19 +17,22 @@ class DeckAdapter extends TypeAdapter<Deck> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Deck(
-      title: fields[1] as String,
-      cards: fields[2] == null ? const [] : (fields[2] as List).cast<Card>(),
+      id: fields[2] as String?,
+      title: fields[0] as String,
+      cards: fields[1] == null ? const [] : (fields[1] as List).cast<Card>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, Deck obj) {
     writer
-      ..writeByte(2)
-      ..writeByte(1)
+      ..writeByte(3)
+      ..writeByte(0)
       ..write(obj.title)
+      ..writeByte(1)
+      ..write(obj.cards)
       ..writeByte(2)
-      ..write(obj.cards);
+      ..write(obj.id);
   }
 
   @override
@@ -53,17 +56,23 @@ class CardAdapter extends TypeAdapter<Card> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Card(front: fields[1] as String, back: fields[2] as String);
+    return Card(
+      id: fields[2] as String?,
+      front: fields[0] as String,
+      back: fields[1] as String,
+    );
   }
 
   @override
   void write(BinaryWriter writer, Card obj) {
     writer
-      ..writeByte(2)
-      ..writeByte(1)
+      ..writeByte(3)
+      ..writeByte(0)
       ..write(obj.front)
+      ..writeByte(1)
+      ..write(obj.back)
       ..writeByte(2)
-      ..write(obj.back);
+      ..write(obj.id);
   }
 
   @override

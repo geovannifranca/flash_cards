@@ -34,10 +34,19 @@ abstract class HomeStoreBase with Store {
   }
 
   @action
+  Future<void> removeDeck({required String id}) async {
+    isLoading = true;
+    await _deckRepository.deleteDeck(id: id);
+    _decks.removeWhere((deck) => deck.id == id);
+    isLoading = false;
+  }
+
+  @action
   Future<List<Deck>> getAllDeck() async {
     isLoading = true;
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     final result = await _deckRepository.getAllDeck();
+    _decks.clear();
     _decks.addAll(result);
     isLoading = false;
     return result;
