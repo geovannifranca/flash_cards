@@ -28,17 +28,17 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Decks'), centerTitle: true),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20),
-          child: Observer(
-            builder: (_) {
-              return Center(
-                child: homestore.isLoading
-                    ? const CircularProgressIndicator(
-                        color: AppColors.primaryColor,
-                      )
-                    : homestore.decks.isNotEmpty
-                    ? ListView.separated(
+        child: Observer(
+          builder: (_) {
+            return Center(
+              child: homestore.isLoading
+                  ? const CircularProgressIndicator(
+                      color: AppColors.primaryColor,
+                    )
+                  : homestore.decks.isNotEmpty
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: ListView.separated(
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () {
@@ -60,38 +60,61 @@ class _HomeScreenState extends State<HomeScreen> {
                         separatorBuilder: (context, index) =>
                             const SizedBox(height: 2),
                         itemCount: homestore.decks.length,
-                      )
-                    : Column(
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 20,
+                        horizontal: 16,
+                      ),
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Image.asset('assets/images/no_decks.png', width: 280),
-                          Container(
-                            width: double.infinity,
-                            height: 58,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                width: 0.5,
-                                color: AppColors.primaryColor,
+                          Image.asset(
+                            key: const Key("image"),
+                            'assets/images/no_decks.png',
+                            width: 280,
+                          ),
+                          InkWell(
+                            key: const Key("btnOutlineAdicionar"),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AddDeckScreen(),
+                                ),
+                              );
+                            },
+                            child: Ink(
+                              width: double.infinity,
+                              height: 68,
+                              padding: const EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  width: 0.5,
+                                  color: AppColors.primaryColor,
+                                ),
                               ),
-                            ),
-                            child: const Text(
-                              'Adicionar deck',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
+                              child: const Text(
+                                'Adicionar deck',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
                         ],
                       ),
-              );
-            },
-          ),
+                    ),
+            );
+          },
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
+        key: const Key("btnAdicionar"),
         extendedPadding: const EdgeInsets.symmetric(horizontal: 30),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
         backgroundColor: AppColors.primaryColor,

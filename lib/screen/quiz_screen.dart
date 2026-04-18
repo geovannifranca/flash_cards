@@ -44,6 +44,7 @@ class QuizScreen extends StatelessWidget {
                             homeStore.reset();
                           },
                           child: const Text(
+                            key: Key("btnVoltar"),
                             'Voltar',
                             style: TextStyle(color: AppColors.primaryColor),
                           ),
@@ -100,7 +101,8 @@ class QuizScreen extends StatelessWidget {
                         child: Column(
                           children: [
                             PrimaryButton(
-                              label: 'Acertei',
+                              key: const Key("btnAcertei"),
+                              label: 'Acertei :)',
                               onPressed: () => homeStore.next(
                                 value: 1,
                                 index: deck.cards.length,
@@ -110,7 +112,8 @@ class QuizScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 20),
                             PrimaryButton(
-                              label: 'Errei',
+                              key: const Key("btnErrei"),
+                              label: 'Errei :(',
                               onPressed: () => homeStore.next(
                                 value: 2,
                                 index: deck.cards.length,

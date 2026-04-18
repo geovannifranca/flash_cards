@@ -11,12 +11,14 @@ class AddCardScreen extends StatelessWidget {
   AddCardScreen({super.key, required this.deck});
 
   final homeStore = GetIt.I.get<HomeStore>();
+  final keyForm = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
         appBar: AppBar(
           title: const Text('Novo Cartão'),
           centerTitle: true,
@@ -24,62 +26,78 @@ class AddCardScreen extends StatelessWidget {
           foregroundColor: AppColors.primaryColor,
         ),
         body: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10),
-          child: Column(
-            children: [
-              TextField(
-                onChanged: homeStore.setQuestion,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: AppColors.primaryColor),
-                  ),
-                  label: Text('Pergunta'),
-                  labelStyle: TextStyle(
-                    fontSize: 18,
-                    color: AppColors.primaryColor,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 40),
-              TextField(
-                onChanged: homeStore.setResponse,
-                minLines: 3,
-                maxLines: 3,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: AppColors.primaryColor),
-                  ),
-                  label: Text('Resporta'),
-                  labelStyle: TextStyle(
-                    fontSize: 18,
-                    color: AppColors.primaryColor,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 64),
-              PrimaryButton(
-                label: 'Adicionar',
-                onPressed: () => {
-                  if ((homeStore.question != null &&
-                          homeStore.response != null) ||
-                      (homeStore.question!.isNotEmpty &&
-                          homeStore.response!.isNotEmpty))
-                    {
-                      homeStore.addCard(
-                        card: AppCard(
-                          front: homeStore.question!,
-                          back: homeStore.response!,
-                        ),
-                        id: deck.id,
-                      ),
-                      Navigator.pop(context),
+          padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20),
+          child: Form(
+            key: keyForm,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  TextFormField(
+                    key: const Key("inputPergunta"),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Campo obrigatório';
+                      }
+                      return null;
                     },
-                },
-                size: 38,
+                    onChanged: homeStore.setQuestion,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: AppColors.primaryColor),
+                      ),
+                      label: Text('Pergunta'),
+                      labelStyle: TextStyle(
+                        fontSize: 18,
+                        color: AppColors.primaryColor,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+                  TextFormField(
+                    key: const Key("inputResposta"),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Campo obrigatório';
+                      }
+                      return null;
+                    },
+                    onChanged: homeStore.setResponse,
+                    minLines: 3,
+                    maxLines: 3,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: AppColors.primaryColor),
+                      ),
+                      label: Text('Resposta'),
+                      labelStyle: TextStyle(
+                        fontSize: 18,
+                        color: AppColors.primaryColor,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 64),
+                  PrimaryButton(
+                    key: const Key("addCardQuestion"),
+                    label: 'Adicionar',
+                    onPressed: () {
+                      if (keyForm.currentState?.validate() ?? false) {
+                        homeStore.addCard(
+                          card: AppCard(
+                            front: homeStore.question!,
+                            back: homeStore.response!,
+                          ),
+                          id: deck.id,
+                        );
+                        Navigator.pop(context);
+                      }
+                    },
+                    size: 38,
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),

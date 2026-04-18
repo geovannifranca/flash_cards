@@ -22,7 +22,14 @@ class _DeckdetailScreenState extends State<DeckdetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.deck.title), centerTitle: true),
+      appBar: AppBar(
+        leading: BackButton(
+          key: const Key("btnvoltar"),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: Text(widget.deck.title),
+        centerTitle: true,
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20.0),
         child: Observer(
@@ -56,6 +63,7 @@ class _DeckdetailScreenState extends State<DeckdetailScreen> {
                         child: Column(
                           children: [
                             SecundaryButton(
+                              key: const Key("addCard"),
                               label: 'Add Cartão',
                               onPressed: () {
                                 Navigator.push(
@@ -69,6 +77,7 @@ class _DeckdetailScreenState extends State<DeckdetailScreen> {
                             ),
                             const SizedBox(height: 20),
                             PrimaryButton(
+                              key: const Key("startQuiz"),
                               label: 'Iniciar Quiz',
                               onPressed: () {
                                 Navigator.push(
