@@ -51,8 +51,28 @@ abstract class HomeStoreBase with Store {
   @action
   void setResponse(String? text) => _response = text;
 
+  @observable
+  int error = 0;
+
+  @observable
+  int correct = 0;
+
   @action
-  void next() => _currentPage++;
+  void next({required int value, required int index}) => {
+    if (value == 1) {correct++} else {error++},
+    if (_currentPage < index) {_currentPage++} else {reset()},
+    _isVisible = false,
+  };
+
+  @action
+  void reset() => {
+    _currentPage = 0,
+    error = 0,
+    correct = 0,
+    _isVisible = false,
+    _question = null,
+    _response = null,
+  };
 
   @action
   Future<void> addDeck({required Deck deck}) async {

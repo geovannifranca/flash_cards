@@ -135,6 +135,39 @@ mixin _$HomeStore on HomeStoreBase, Store {
     });
   }
 
+  late final _$errorAtom = Atom(name: 'HomeStoreBase.error', context: context);
+
+  @override
+  int get error {
+    _$errorAtom.reportRead();
+    return super.error;
+  }
+
+  @override
+  set error(int value) {
+    _$errorAtom.reportWrite(value, super.error, () {
+      super.error = value;
+    });
+  }
+
+  late final _$correctAtom = Atom(
+    name: 'HomeStoreBase.correct',
+    context: context,
+  );
+
+  @override
+  int get correct {
+    _$correctAtom.reportRead();
+    return super.correct;
+  }
+
+  @override
+  set correct(int value) {
+    _$correctAtom.reportWrite(value, super.correct, () {
+      super.correct = value;
+    });
+  }
+
   late final _$addDeckAsyncAction = AsyncAction(
     'HomeStoreBase.addDeck',
     context: context,
@@ -229,12 +262,24 @@ mixin _$HomeStore on HomeStoreBase, Store {
   }
 
   @override
-  void next() {
+  void next({required int value, required int index}) {
     final _$actionInfo = _$HomeStoreBaseActionController.startAction(
       name: 'HomeStoreBase.next',
     );
     try {
-      return super.next();
+      return super.next(value: value, index: index);
+    } finally {
+      _$HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void reset() {
+    final _$actionInfo = _$HomeStoreBaseActionController.startAction(
+      name: 'HomeStoreBase.reset',
+    );
+    try {
+      return super.reset();
     } finally {
       _$HomeStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -243,7 +288,9 @@ mixin _$HomeStore on HomeStoreBase, Store {
   @override
   String toString() {
     return '''
-isLoading: ${isLoading}
+isLoading: ${isLoading},
+error: ${error},
+correct: ${correct}
     ''';
   }
 }

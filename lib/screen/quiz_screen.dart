@@ -15,72 +15,114 @@ class QuizScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Quiz: ${deck.title}'), centerTitle: true),
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => {homeStore.reset(), Navigator.pop(context)},
+          icon: const Icon(Icons.arrow_back),
+        ),
+        title: Text('Quiz: ${deck.title}'),
+        centerTitle: true,
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: Observer(
-          builder: (_) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Spacer(flex: 4),
-                Expanded(
-                  flex: 6,
-                  child: Column(
+          builder: (context) {
+            return homeStore.currentPage == deck.cards.length
+                ? Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'O quiz acabou. Você fez ${homeStore.correct} pontos.',
+                          style: const TextStyle(fontSize: 48),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 20),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            homeStore.reset();
+                          },
+                          child: const Text(
+                            'Voltar',
+                            style: TextStyle(color: AppColors.primaryColor),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
-                        deck.cards[homeStore.currentPage].front,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 38),
-                        maxLines: 3,
-                        overflow: TextOverflow.clip,
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: Text(
+                          '${homeStore.currentPage + 1}/${deck.cards.length}',
+                          style: const TextStyle(fontSize: 24),
+                        ),
                       ),
-                      const SizedBox(height: 20),
-                      homeStore.isVisible
-                          ? TextButton(
-                              onPressed: () => homeStore.seeAnswer(),
-                              child: Text(
-                                deck.cards[homeStore.currentPage].back,
-                                style: const TextStyle(
-                                  color: AppColors.success,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            )
-                          : TextButton(
-                              onPressed: () => homeStore.seeAnswer(),
-                              child: const Text(
-                                'Visualizar resposta',
-                                style: TextStyle(fontSize: 16),
-                              ),
+                      const Spacer(),
+                      Expanded(
+                        flex: 2,
+                        child: Column(
+                          children: [
+                            Text(
+                              deck.cards[homeStore.currentPage].front,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(fontSize: 38),
+                              maxLines: 3,
+                              overflow: TextOverflow.clip,
                             ),
-                    ],
-                  ),
-                ),
-                const Spacer(flex: 4),
-                Expanded(
-                  flex: 4,
-                  child: Column(
-                    children: [
-                      PrimaryButton(
-                        label: 'Acertei',
-                        onPressed: () {},
-                        size: 68,
-                        color: AppColors.success,
+                            homeStore.isVisible
+                                ? TextButton(
+                                    onPressed: () => homeStore.seeAnswer(),
+                                    child: Text(
+                                      deck.cards[homeStore.currentPage].back,
+                                      style: const TextStyle(
+                                        color: AppColors.success,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  )
+                                : TextButton(
+                                    onPressed: () => homeStore.seeAnswer(),
+                                    child: const Text(
+                                      'Visualizar resposta',
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                                  ),
+                          ],
+                        ),
                       ),
-                      const SizedBox(height: 20),
-                      PrimaryButton(
-                        label: 'Errei',
-                        onPressed: () {},
-                        size: 78,
-                        color: AppColors.error,
+                      const Spacer(),
+                      Expanded(
+                        flex: 2,
+                        child: Column(
+                          children: [
+                            PrimaryButton(
+                              label: 'Acertei',
+                              onPressed: () => homeStore.next(
+                                value: 1,
+                                index: deck.cards.length,
+                              ),
+                              size: 68,
+                              color: AppColors.success,
+                            ),
+                            const SizedBox(height: 20),
+                            PrimaryButton(
+                              label: 'Errei',
+                              onPressed: () => homeStore.next(
+                                value: 2,
+                                index: deck.cards.length,
+                              ),
+                              size: 78,
+                              color: AppColors.error,
+                            ),
+                          ],
+                        ),
                       ),
                     ],
-                  ),
-                ),
-                const Spacer(flex: 4),
-              ],
-            );
+                  );
           },
         ),
       ),
