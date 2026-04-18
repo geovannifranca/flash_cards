@@ -44,7 +44,7 @@
 
 ## 📖 Sobre o Projeto
 
-Flash Cards é uma aplicação mobile focada em **aprendizado por repetição espaçada**. O usuário cria baralhos temáticos com cartões frente/verso, revisa o conteúdo de forma interativa e acompanha seu progresso de memorização.
+Flash Cards é o desafio do módulo 7 da GrowDev (Acessando recursos nativos e armazenamento offline) -  uma aplicação mobile focada em **aprendizado por repetição espaçada**. O usuário cria baralhos temáticos com cartões frente/verso, revisa o conteúdo de forma interativa e acompanha seu progresso de memorização.
 
 O projeto foi construído com foco em:
 - **Offline-first** — todos os dados são armazenados localmente com Hive CE, sem necessidade de internet.
