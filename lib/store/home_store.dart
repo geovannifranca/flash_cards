@@ -70,7 +70,7 @@ abstract class HomeStoreBase with Store {
   @action
   Future<void> addCard({required AppCard card, required String id}) async {
     isLoading = true;
-
+    await Future.delayed(const Duration(seconds: 1));
     await _deckRepository.saveCard(id: id, card: card);
 
     isLoading = false;
